@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import {  NextResponse } from 'next/server';
 import TextSubmission from '@/app/models/Textinfo_model';
 import ConnectDB from '@/app/ConnectDB';
 

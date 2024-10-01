@@ -11,6 +11,10 @@ export async function middleware(req: NextRequest) {
 
   try {
     const { payload } = await jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET));
+    if(!payload){
+      return NextResponse.redirect(new URL("/login", req.url));
+
+    }
     return NextResponse.next();
   } catch (error) {
     console.error("Token verification failed:", error);

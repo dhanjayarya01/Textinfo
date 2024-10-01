@@ -25,19 +25,22 @@ export async function POST(request: NextRequest) {
  
      if (submittedText) {
    
-         console.log("Submitted Text:", submittedText);
            
         const SubmitedText=await TextSubmission.create({
                    text:submittedText
            })
           
+           if(!SubmitedText){
+
+             return NextResponse.json({ message: "Error while creating message"}, { status: 200 });
+           }
          
          return NextResponse.json({ message: "Text submitted successfully!",submittedText}, { status: 200 });
      } 
      
      } catch (error) {
 
-       return NextResponse.json({ message: "No text provided." }, { status: 400 });
+       return NextResponse.json({ message: "No text provided." ,error}, { status: 400 });
     
    }
 }
