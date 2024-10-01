@@ -1,5 +1,5 @@
 // app/messages/page.tsx
-'use client'
+'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -13,7 +13,7 @@ const MessagesPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const router=useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -25,7 +25,7 @@ const MessagesPage = () => {
         const data = await response.json();
         setMessages(data);
       } catch (error) {
-        router.push('/login')
+        router.push('/login');
         setError(error.message);
       } finally {
         setLoading(false);
@@ -33,7 +33,23 @@ const MessagesPage = () => {
     };
 
     fetchMessages();
-  }, []);
+  }, [router]);
+
+  const handleDelete = async (id: string) => {
+      try {
+        const response = await fetch(`/api/messages/${id}`, {
+          method: 'DELETE',
+        });
+        if (!response.ok) {
+          throw new Error('Error deleting message');
+        }
+        setMessages((prevMessages) => prevMessages.filter((message) => message._id !== id));
+      } catch (error) {
+        console.log("cat part  of delete ")
+        setError(error.message);
+      
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -43,8 +59,14 @@ const MessagesPage = () => {
       <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {messages.map((message) => (
           <div key={message._id} className="bg-white p-4 rounded-lg shadow-md">
-            <p className="text-gray-700">message id :  {message._id}</p>
+            <p className="text-gray-700">Message ID: {message._id}</p>
             <h2 className="text-xl font-semibold mb-2">{message.text}</h2>
+            <button
+              onClick={() => handleDelete(message._id)}
+              className="mt-4 bg-red-500 text-white p-2 rounded hover:bg-red-600"
+            >
+              Delete
+            </button>
           </div>
         ))}
       </div>
