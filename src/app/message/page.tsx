@@ -25,8 +25,13 @@ const MessagesPage = () => {
         const data = await response.json();
         setMessages(data);
       } catch (error) {
+        // Type assertion to check if the error is an instance of Error
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError("An unknown error occurred.");
+        }
         router.push('/login');
-        setError(error.message);
       } finally {
         setLoading(false);
       }
@@ -36,18 +41,21 @@ const MessagesPage = () => {
   }, [router]);
 
   const handleDelete = async (id: string) => {
-      try {
-        const response = await fetch(`/api/messages/${id}`, {
-          method: 'DELETE',
-        });
-        if (!response.ok) {
-          throw new Error('Error deleting message');
-        }
-        setMessages((prevMessages) => prevMessages.filter((message) => message._id !== id));
-      } catch (error) {
-        console.log("cat part  of delete ")
+    try {
+      const response = await fetch(`/api/messages/${id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Error deleting message');
+      }
+      setMessages((prevMessages) => prevMessages.filter((message) => message._id !== id));
+    } catch (error) {
+      // Type assertion to check if the error is an instance of Error
+      if (error instanceof Error) {
         setError(error.message);
-      
+      } else {
+        setError("An unknown error occurred while deleting.");
+      }
     }
   };
 
