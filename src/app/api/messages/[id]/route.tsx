@@ -13,9 +13,9 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
   
     const deletedMessage = await TextSubmission.findByIdAndDelete(id);
 
-    // if (!deletedMessage) {
-    //   return NextResponse.json({ message: 'Message not found.' }, { status: 404 });
-    // }
+    if (!deletedMessage) {
+      return NextResponse.json({ message: 'Message not found.' }, { status: 404 });
+    }
 
     return NextResponse.json({ message: 'Message deleted successfully.' }, { status: 200 });
   } catch (error) {
