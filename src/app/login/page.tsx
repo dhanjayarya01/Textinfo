@@ -15,22 +15,19 @@ export default function LoginPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-           'Cache-Control': 'no-cache, no-store, must-revalidate',
-            'Pragma': 'no-cache',
-            'Expires': '0'
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
         },
         body: JSON.stringify({ email }),
       });
-  
-      const data=res.json()
 
+      const data = await res.json(); // Await the response JSON
 
       if (res.ok) {
-        
         router.push("/message");
-        
       } else {
-        setError(data.message); 
+        setError(data.message); // Now you can safely access `message`
       }
     } catch (error) {
       console.error("Login failed:", error);
