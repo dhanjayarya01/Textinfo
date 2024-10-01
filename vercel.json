@@ -1,0 +1,16 @@
+{
+    "build": {
+      "env": {
+      "DATABASE_URL": "@DATABASE_URL",
+      "AEMAIL": "@AEMAIL",
+      "JWT_SECRET": "@JWT_SECRET"
+    }
+    },
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "/api/$1"
+      }
+    ]
+  }
+  
