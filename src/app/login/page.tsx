@@ -27,7 +27,7 @@ export default function LoginPage() {
 
       if (res.ok) {
         
-        router.push("/api/messages");
+        router.push("/message");
         
       } else {
         setError(data.message); 
